@@ -779,6 +779,9 @@
             <field name="RPM">
                 <description>Measured RPM</description>
             </field>
+            <field name="PMU">
+                <description>Measured PMU</description>
+            </field>
             <field name="Pow">
                 <description>Rated power output</description>
             </field>
@@ -1150,6 +1153,9 @@
             </field>
             <field name="Rpm">
                 <description>Reported engine RPM</description>
+            </field>
+            <field name="Pmu">
+                <description>Reported PMU</description>
             </field>
             <field name="SDT">
                 <description>Spark Dwell Time</description>
@@ -4146,6 +4152,56 @@
             </field>
             <field name="rpm2">
                 <description>Second sensor's data</description>
+            </field>
+        </fields>
+    </logformat>
+    <logformat name="PMU">
+        <description>Data from PMU board</description>
+        <fields>
+            <field name="TimeUS">
+                <description>Time since system startup</description>
+            </field>
+            <field name="VbattA">
+                <description>Voltage battery A</description>
+            </field>
+            <field name="IbattA">
+                <description>Current battery A</description>
+            </field>
+            <field name="VbattB">
+                <description>Voltage battery B</description>
+            </field>
+            <field name="IbattB">
+                <description>Current battery B</description>
+            </field>
+            <field name="Vbatt12S">
+                <description>Voltage battery 12S</description>
+            </field>
+            <field name="Fuel_level">
+                <description>Fuel level</description>
+            </field>
+            <field name="Raw_fuel_level">
+                <description>Raw fuel level</description>
+            </field>
+            <field name="env_temp">
+                <description>Environment temperature</description>
+            </field>
+            <field name="env_RH">
+                <description>Environment relative humidity</description>
+            </field>
+            <field name="PMU_RPM">
+                <description>Main engine speed</description>
+            </field>
+            <field name="PMU_data_status">
+                <description>PMU data status</description>
+            </field>
+            <field name="PMU_temp">
+                <description>PMU temperature</description>
+            </field>
+            <field name="PMU_frame_ok">
+                <description>PMU frame status</description>
+            </field>
+            <field name="PMU_com">
+                <description>PMU communication</description>
             </field>
         </fields>
     </logformat>

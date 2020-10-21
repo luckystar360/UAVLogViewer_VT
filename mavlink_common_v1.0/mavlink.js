@@ -1983,6 +1983,7 @@ mavlink.MAVLINK_MSG_ID_GOPRO_GET_REQUEST = 216
 mavlink.MAVLINK_MSG_ID_GOPRO_GET_RESPONSE = 217
 mavlink.MAVLINK_MSG_ID_GOPRO_SET_REQUEST = 218
 mavlink.MAVLINK_MSG_ID_GOPRO_SET_RESPONSE = 219
+mavlink.MAVLINK_MSG_ID_PMU   = 225
 mavlink.MAVLINK_MSG_ID_RPM = 226
 mavlink.MAVLINK_MSG_ID_DEVICE_OP_READ = 11000
 mavlink.MAVLINK_MSG_ID_DEVICE_OP_READ_REPLY = 11001
@@ -2229,6 +2230,7 @@ mavlink.nameMap = {
     'GOPRO_GET_RESPONSE': 217,
     'GOPRO_SET_REQUEST': 218,
     'GOPRO_SET_RESPONSE': 219,
+    'PMU': 225,
     'RPM': 226,
     'DEVICE_OP_READ': 11000,
     'DEVICE_OP_READ_REPLY': 11001,
@@ -2831,6 +2833,23 @@ mavlink.messageFields = {
     'RPM': [
         'rpm1',
         'rpm2'
+    ],
+
+    'PMU':[
+        'VbattA', /*<  Voltage battery A.*/
+        'IbattA', /*<  Current battery A.*/
+        'VbattB', /*<  Voltage battery B.*/
+        'IbattB', /*<  Current battery B.*/
+        'Vbatt12S', /*<  Voltage battery 12S.*/
+        'Fuel_level', /*<  Fuel level.*/
+        'Raw_fuel_level', /*<  Raw fuel level.*/
+        'env_temp', /*<  Environment temperature.*/
+        'env_RH', /*<  Environment relative humidity.*/
+        'PMU_RPM', /*<  Main engine speed.*/
+        'PMU_data_status', /*<  PMU data status.*/
+        'PMU_temp', /*<  PMU temperature.*/
+        'PMU_frame_ok', /*<  PMU frame status.*/
+        'PMU_com' /*<  PMU communication.*/
     ],
     'DEVICE_OP_READ': [
         'target_system',
@@ -6936,6 +6955,77 @@ mavlink.messages.gopro_set_response.prototype.pack = function (mav) {
     )
 }
 
+
+/*
+PMU output.
+                float VbattA;
+                float IbattA; 
+                float VbattB; 
+                float IbattB; 
+                float Vbatt12S; 
+                float Fuel_level; 
+                float Raw_fuel_level; 
+                float env_temp; 
+                float env_RH; 
+                uint16_t PMU_RPM; 
+                uint16_t PMU_data_status;
+                uint8_t PMU_temp; 
+                int8_t PMU_frame_ok; 
+                int8_t PMU_com; 
+
+*/
+mavlink.messages.pmu = function (
+                VbattA,
+                IbattA, 
+                VbattB, 
+                IbattB, 
+                Vbatt12S, 
+                Fuel_level, 
+                Raw_fuel_level, 
+                env_temp,
+                env_RH,
+                PMU_RPM, 
+                PMU_data_status,
+                PMU_temp,
+                PMU_frame_ok, 
+                PMU_com
+) {
+    this.format = '<fffffffffHHBbb'
+    this.id = mavlink.MAVLINK_MSG_ID_PMU
+    this.order_map = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    this.crc_extra = 128
+    this.name = 'PMU'
+
+    this.fieldnames = ['VbattA','IbattA', 'VbattB', 'IbattB', 'Vbatt12S', 'Fuel_level', 'Raw_fuel_level', 'env_temp','env_RH','PMU_RPM','PMU_data_status','PMU_temp','PMU_frame_ok','PMU_com']
+
+    this.set(arguments)
+}
+
+mavlink.messages.pmu.prototype = new mavlink.message()
+
+mavlink.messages.pmu.prototype.pack = function (mav) {
+    return mavlink.message.prototype.pack.call(
+        this,
+        mav,
+        this.crc_extra,
+        jspack.Pack(this.format, [VbattA,
+            this.IbattA, 
+            this.VbattB, 
+            this.IbattB, 
+            this.Vbatt12S, 
+            this.Fuel_level, 
+            this.Raw_fuel_level, 
+            this.env_temp,
+            this.env_RH,
+            this.PMU_RPM, 
+            this.PMU_data_status,
+            this.PMU_temp,
+            this.PMU_frame_ok, 
+            this.PMU_com])
+    )
+}
+
+
 /*
 RPM sensor output.
 
@@ -6944,7 +7034,7 @@ RPM sensor output.
 
 */
 mavlink.messages.rpm = function (rpm1, rpm2) {
-    this.format = '<ff'
+    this.format = '<fffffffff'
     this.id = mavlink.MAVLINK_MSG_ID_RPM
     this.order_map = [0, 1]
     this.crc_extra = 207
@@ -17536,6 +17626,7 @@ mavlink.map = {
     218: { format: '<BBB4s', type: mavlink.messages.gopro_set_request, order_map: [0, 1, 2, 3], crc_extra: 17 },
     219: { format: '<BB', type: mavlink.messages.gopro_set_response, order_map: [0, 1], crc_extra: 162 },
     226: { format: '<ff', type: mavlink.messages.rpm, order_map: [0, 1], crc_extra: 207 },
+    225: { format: '<fffffffffHHBbb', type: mavlink.messages.pmu, order_map: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], crc_extra: 128 },
     11000: {
         format: '<IBBBBB40sBB',
         type: mavlink.messages.device_op_read,
